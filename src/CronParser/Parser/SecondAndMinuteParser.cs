@@ -2,29 +2,29 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace CronParser
+namespace CronParser.Parser
 {
-    public class SecondAndMinuteValidation
+    public class SecondAndMinuteParser
     {
-        public static CronValue Validate(string cronValue)
+        public static CronValue Parser(string cronValue)
         {
             if(cronValue == "*")
             {
                 return new CronValue() { Values = Enumerable.Range(0, 60).ToArray(), Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.CollectionPattern.IsMatch(cronValue))
+            else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateCollection(cronValue, 59);
+                int[] values = ParserUtility.ValidateCollection(cronValue, 59, 0);
                 return new CronValue { Values = values, Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.StepPattern.IsMatch(cronValue))
+            else if (ParserUtility.StepPattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateStep(cronValue, 59);
+                int[] values = ParserUtility.ValidateStep(cronValue, 59, 0);
                 return new CronValue { Values = values, Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.RangePattern.IsMatch(cronValue))
+            else if (ParserUtility.RangePattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateRange(cronValue, 59);
+                int[] values = ParserUtility.ValidateRange(cronValue, 59, 0);
                 return new CronValue { Values = values, Type = CronValueType.Collection };
             }
             else

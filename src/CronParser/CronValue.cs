@@ -16,6 +16,6 @@ namespace CronParser
         Collection = 0,
         DayOfLastWeek = 1,
         LastDayOfMonth = 2,
-        SeqencingDayOfWeek = 3
+        DayOfSeqencingWeek = 3
     }
 }

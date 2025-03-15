@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CronParser
+namespace CronParser.Parser
 {
-    public class MonthValidation
+    public class MonthParser
     {
         private static readonly Dictionary<string, string> MonthMap = new Dictionary<string, string>
         {
@@ -21,9 +21,8 @@ namespace CronParser
             { "DEC", "12" },
         };
 
-        public static CronValue Validate(string cronValue)
+        public static CronValue Parser(string cronValue)
         {
-            cronValue = cronValue.ToUpper();
             foreach (var month in MonthMap)
             {
                 cronValue = cronValue.Replace(month.Key, month.Value);
@@ -34,19 +33,19 @@ namespace CronParser
                 int[] values = Enumerable.Range(1, 12).ToArray();
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.CollectionPattern.IsMatch(cronValue))
+            else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateCollection(cronValue, 12);
+                int[] values = ParserUtility.ValidateCollection(cronValue, 12, 1);
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.StepPattern.IsMatch(cronValue))
+            else if (ParserUtility.StepPattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateStep(cronValue, 12);
+                int[] values = ParserUtility.ValidateStep(cronValue, 12, 1);
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.RangePattern.IsMatch(cronValue))
+            else if (ParserUtility.RangePattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateRange(cronValue, 12);
+                int[] values = ParserUtility.ValidateRange(cronValue, 12, 1);
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else

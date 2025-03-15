@@ -35,7 +35,17 @@ namespace CronParser
         public DateTimeOffset? GetNextAvaliableTime(DateTimeOffset? afterTime = null)
         {
             afterTime = afterTime ?? DateTimeOffset.UtcNow;
-            return null;
+
+            CronTimeBuilder builder = new CronTimeBuilder();
+            builder.WithSecond(Second);
+            builder.WithMinute(Minute);
+            builder.WithHour(Hour);
+            builder.WithDayOfMonth(DayOfMonth);
+            builder.WithMonth(Month);
+            builder.WithDayOfWeek(DayOfWeek);
+            builder.WithYear(Year);
+
+            return builder.GetNextTimes(afterTime.Value);
         }
 
     }

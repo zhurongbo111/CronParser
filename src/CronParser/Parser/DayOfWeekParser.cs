@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace CronParser
+namespace CronParser.Parser
 {
-    public class DayOfWeekValidation
+    public class DayOfWeekParser
     {
         private static readonly Regex LastPattern = new Regex("^[0-6](l|L)$");
         private static readonly Regex Pattern = new Regex("^[0-6]#[1-5]$");
@@ -21,7 +21,7 @@ namespace CronParser
             { "SAT", "6" }
         };
 
-        public static CronValue Validate(string cronValue)
+        public static CronValue Parser(string cronValue)
         {
             cronValue = cronValue.ToUpper();
             foreach (var weekDay in WeekDayMap)
@@ -43,21 +43,21 @@ namespace CronParser
             else if (Pattern.IsMatch(cronValue))
             {
                 int[] values = cronValue.Split('#').Select(e => int.Parse(e)).ToArray();
-                return new CronValue() { Values = values, Type = CronValueType.SeqencingDayOfWeek };
+                return new CronValue() { Values = values, Type = CronValueType.DayOfSeqencingWeek };
             }
-            else if (ValidationUtility.CollectionPattern.IsMatch(cronValue))
+            else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateCollection(cronValue, 6);
+                int[] values = ParserUtility.ValidateCollection(cronValue, 6, 0);
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.StepPattern.IsMatch(cronValue))
+            else if (ParserUtility.StepPattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateStep(cronValue, 6);
+                int[] values = ParserUtility.ValidateStep(cronValue, 6, 0);
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
-            else if (ValidationUtility.RangePattern.IsMatch(cronValue))
+            else if (ParserUtility.RangePattern.IsMatch(cronValue))
             {
-                int[] values = ValidationUtility.ValidateRange(cronValue, 6);
+                int[] values = ParserUtility.ValidateRange(cronValue, 6, 0);
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else
