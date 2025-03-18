@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CronParser
 {
@@ -34,8 +32,33 @@ namespace CronParser
 
         public DateTimeOffset? GetNextAvaliableTime(DateTimeOffset? afterTime = null)
         {
-            afterTime = afterTime ?? DateTimeOffset.UtcNow;
+            var times = GetNextAvaliableTimes(afterTime, 1);
+            if(times.Length == 0)
+            {
+                return null;
+            }
+            else
+            {
+                return times[0];
+            }
+        }
 
+        public DateTimeOffset[] GetNextAvaliableTimes(DateTimeOffset? afterTime = null, int count = 1)
+        {
+            afterTime = afterTime ?? DateTimeOffset.UtcNow;
+            ICronTimeBuilder builder = new CronTimeBuilder();
+            builder.WithSecond(Second);
+            builder.WithMinute(Minute);
+            builder.WithHour(Hour);
+            builder.WithDayOfMonth(DayOfMonth);
+            builder.WithMonth(Month);
+            builder.WithDayOfWeek(DayOfWeek);
+            builder.WithYear(Year);
+            return builder.GetNextTimes(afterTime.Value, count);
+        }
+
+        public DateTimeOffset[] GetAvaliableTimesBetween(DateTimeOffset startTime, DateTimeOffset endTime)
+        {
             CronTimeBuilder builder = new CronTimeBuilder();
             builder.WithSecond(Second);
             builder.WithMinute(Minute);
@@ -44,9 +67,7 @@ namespace CronParser
             builder.WithMonth(Month);
             builder.WithDayOfWeek(DayOfWeek);
             builder.WithYear(Year);
-
-            return builder.GetNextTimes(afterTime.Value);
+            return builder.GetTimesBetween(startTime, endTime);
         }
-
     }
 }

@@ -15,7 +15,7 @@ namespace CronParser.Parser
         {
             if (cronValue == "*")
             {
-                return new CronValue() { Values = Enumerable.Range(Min, Min - Max + 1).ToArray(), Type = CronValueType.Collection };
+                return new CronValue() { Values = Enumerable.Range(Min, Max - Min + 1).ToArray(), Type = CronValueType.Collection };
             }
             else if (CollectionPattern.IsMatch(cronValue))
             {

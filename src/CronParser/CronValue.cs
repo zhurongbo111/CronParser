@@ -14,7 +14,7 @@ namespace CronParser
     public enum CronValueType
     {
         Collection = 0,
-        DayOfLastWeek = 1,
+        LastWeekDay = 1,
         LastDayOfMonth = 2,
         DayOfSeqencingWeek = 3
     }

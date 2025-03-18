@@ -3,7 +3,7 @@ using System;
 
 namespace CronParser
 {
-    public class CronExpressionParser
+    public static class CronExpressionParser
     {
         public static CronExpression Parse(string cron)
         {
@@ -50,14 +50,14 @@ namespace CronParser
             }
 
             CronValue second = SecondAndMinuteParser.Parser(secondToken) ?? throw new FormatException($"The expression {secondToken} is invalid");
-            CronValue minute = SecondAndMinuteParser.Parser(minuteToken) ?? throw new FormatException($"The expression {minuteToken} is invalid"); ;
-            CronValue hour = HourParser.Parser(hourToken) ?? throw new FormatException($"The expression {hourToken} is invalid"); ;
-            CronValue dayOfMonth = DayOfMonthParser.Parser(dayOfMonthToken) ?? throw new FormatException($"The expression {dayOfMonthToken} is invalid"); ;
-            CronValue month = MonthParser.Parser(monthToken) ?? throw new FormatException($"The expression {monthToken} is invalid"); ;
-            CronValue dayofWeek = DayOfWeekParser.Parser(dayOfWeekToken) ?? throw new FormatException($"The expression {dayOfWeekToken} is invalid"); ;
-            CronValue year = YearParser.Parser(yearToken) ?? throw new FormatException($"The expression {yearToken} is invalid"); ;
+            CronValue minute = SecondAndMinuteParser.Parser(minuteToken) ?? throw new FormatException($"The expression {minuteToken} is invalid");
+            CronValue hour = HourParser.Parser(hourToken) ?? throw new FormatException($"The expression {hourToken} is invalid");
+            CronValue dayOfMonth = DayOfMonthParser.Parser(dayOfMonthToken) ?? throw new FormatException($"The expression {dayOfMonthToken} is invalid");
+            CronValue month = MonthParser.Parser(monthToken) ?? throw new FormatException($"The expression {monthToken} is invalid");
+            CronValue dayofWeek = DayOfWeekParser.Parser(dayOfWeekToken) ?? throw new FormatException($"The expression {dayOfWeekToken} is invalid");
+            CronValue year = YearParser.Parser(yearToken) ?? throw new FormatException($"The expression {yearToken} is invalid");
 
-            return new CronExpression(year, minute, hour, dayOfMonth, month, dayofWeek, year);
+            return new CronExpression(second, minute, hour, dayOfMonth, month, dayofWeek, year);
         }
     }
 }

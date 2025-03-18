@@ -37,7 +37,7 @@ namespace CronParser.Parser
             else if (LastPattern.IsMatch(cronValue))
             {
                 int weekDay = int.Parse(cronValue.Substring(0, cronValue.Length - 1));
-                return new CronValue() { Values = new int[] { weekDay }, Type = CronValueType.DayOfLastWeek };
+                return new CronValue() { Values = new int[] { weekDay }, Type = CronValueType.LastWeekDay };
 
             }
             else if (Pattern.IsMatch(cronValue))

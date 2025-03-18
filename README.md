@@ -33,19 +33,6 @@ The corn expression version supported by this library are following:
     | +----------- Minute
     +------------- Second(Range:0-59)
 
-###### Six-part format(include year)
-
-    * * * * * *
-    - - - - - -
-    | | | | | |
-    | | | | | |
-    | | | | | +--- Year(Rang:1970-2099)
-    | | | | +----- Day of week
-    | | | +------- Month
-    | | +--------- Day of month
-    | +----------- Hour
-    +------------- Minute
-
 ###### Seven-part format
 
     * * * * * * *
