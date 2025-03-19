@@ -43,6 +43,11 @@ namespace CronParser.Parser
             else if (Pattern.IsMatch(cronValue))
             {
                 int[] values = cronValue.Split('#').Select(e => int.Parse(e)).ToArray();
+                if(values.Length != 2 || (values[1]==5 && values[0] > 2))
+                {
+                    return null;
+                }
+
                 return new CronValue() { Values = values, Type = CronValueType.DayOfSeqencingWeek };
             }
             else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
