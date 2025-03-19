@@ -192,6 +192,11 @@ namespace CronParser
 
         private bool CheckWeekDayLimit(int year, int month, int dayOfMonth)
         {
+            if(dayOfMonth > DateTime.DaysInMonth(year, month))
+            {
+                return false;
+            }
+
             var date = new DateTimeOffset(year, month, dayOfMonth, 0, 0, 0, TimeSpan.Zero);
             switch (_dayOfWeek.Type)
             {
@@ -266,7 +271,7 @@ namespace CronParser
         private DateTimeOffset GetMatchedDate(int year, int month, int WeekDay)
         {
             int days = DateTime.DaysInMonth(year, month);
-            for (int i = 1; i <= days; i++)
+            for (int i = days; i > 0; i--)
             {
                 var date = new DateTimeOffset(year, month, i, 0, 0, 0, TimeSpan.Zero);
                 if ((int)date.DayOfWeek == WeekDay)
@@ -278,11 +283,11 @@ namespace CronParser
             return DateTimeOffset.MinValue;
         }
 
-        private DateTimeOffset GetMatchedDate(int year, int month, int week, int weekDay)
+        private DateTimeOffset GetMatchedDate(int year, int month, int weekDay, int week)
         {
             var date = new DateTimeOffset(year, month, 1, 0, 0, 0, TimeSpan.Zero);
             int seqencingWeek = 1;
-            for (int i = (int)date.DayOfWeek; i < 7;)
+            for (int i = (int)date.DayOfWeek; date.Month == month;)
             {
                 if(seqencingWeek == week && i == weekDay)
                 {

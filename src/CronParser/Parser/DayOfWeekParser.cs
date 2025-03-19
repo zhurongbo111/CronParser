@@ -8,7 +8,7 @@ namespace CronParser.Parser
     public class DayOfWeekParser
     {
         private static readonly Regex LastPattern = new Regex("^[0-6](l|L)$");
-        private static readonly Regex Pattern = new Regex("^[0-6]#[1-5]$");
+        private static readonly Regex Pattern = new Regex("^[0-6]#[1-6]$");
 
         private static readonly Dictionary<string, string> WeekDayMap = new Dictionary<string, string>
         {
@@ -53,11 +53,6 @@ namespace CronParser.Parser
             else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateCollection(cronValue, 6, 0);
-                return new CronValue() { Values = values, Type = CronValueType.Collection };
-            }
-            else if (ParserUtility.StepPattern.IsMatch(cronValue))
-            {
-                int[] values = ParserUtility.ValidateStep(cronValue, 6, 0);
                 return new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else if (ParserUtility.RangePattern.IsMatch(cronValue))

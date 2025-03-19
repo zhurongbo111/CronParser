@@ -57,7 +57,7 @@ The corn expression version supported by this library are following:
 | Day of month |   Yes    |      1–31       |      `*` `,` `-`  `L`      |           `L` specifies the last day of the month.           |
 |    Month     |   Yes    | 1–12 or JAN–DEC |        `*` `,` `-`         |                 Similar with second second.                  |
 | Day of week  |   Yes    | 0–6 or SUN–SAT  |    `*` `,` `-`  `L` `#`    | `5L` specifies the last Friday.<br> `5#3` specifies the third Friday of the month. |
-|     Year     |    No    |    1970–2099    |        `*` `,` `-`         |                 Similar with second second.                  |
+|     Year     |    No    |    1970–2099    |        `*` `,` `-`         |                     Similar with second.                     |
 
 
 

@@ -33,7 +33,7 @@ namespace CronParser
         public DateTimeOffset? GetNextAvaliableTime(DateTimeOffset? afterTime = null)
         {
             var times = GetNextAvaliableTimes(afterTime, 1);
-            if(times.Length == 0)
+            if(times == null || times.Length == 0)
             {
                 return null;
             }
