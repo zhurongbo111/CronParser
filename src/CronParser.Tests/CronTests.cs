@@ -129,6 +129,28 @@ namespace CronParser.Tests
                 }
             }
         }
+
+        [TestMethod]
+        public void TestFromComplexJson()
+        {
+            string json = File.ReadAllText("TestData/ComplexCronData.json");
+            var tests = System.Text.Json.JsonSerializer.Deserialize<CronTest[]>(json);
+            foreach (var test in tests)
+            {
+                var cronExpression = CronExpressionParser.Parse(test.Cron);
+                if(test.Dates.Length == 0)
+                {
+                    var actualDate = cronExpression.GetNextAvaliableTime(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero));
+                    continue;
+                }
+
+                var actualDates = cronExpression.GetNextAvaliableTimes(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero), test.Dates.Length);
+                for (int i = 0; i < test.Dates.Length; i++)
+                {
+                    Assert.AreEqual(test.Dates[i], actualDates[i].ToString("yyyy-MM-dd HH:mm:ss"), true, $"Cron: {test.Cron}");
+                }
+            }
+        }
     }
 
     class CronTest

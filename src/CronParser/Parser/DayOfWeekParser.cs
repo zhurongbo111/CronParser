@@ -60,6 +60,11 @@ namespace CronParser.Parser
                 int[] values = ParserUtility.ValidateCollection(cronValue, 6, 0);
                 return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
             }
+            else if (ParserUtility.StepPattern.IsMatch(cronValue))
+            {
+                int[] values = ParserUtility.ValidateStep(cronValue, 6, 0);
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
+            }
             else if (ParserUtility.RangePattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateRange(cronValue, 6, 0);
