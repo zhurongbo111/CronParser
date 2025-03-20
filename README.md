@@ -1,6 +1,6 @@
 # CronParser
 [![NuGet Downloads](https://img.shields.io/nuget/dt/CronParser)](https://www.nuget.org/packages/CronParser)
-
+[![CI](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml/badge.svg)](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml)
 Cron is most suitable for scheduling repetitive tasks. You can visit [Cron Wiki](https://en.wikipedia.org/wiki/Cron)  for more info.
 
 This library provides the following facilities:
