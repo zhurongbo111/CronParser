@@ -1,4 +1,5 @@
 # CronParser
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CronParser)](https://www.nuget.org/packages/CronParser)
 
 Cron is most suitable for scheduling repetitive tasks. You can visit [Cron Wiki](https://en.wikipedia.org/wiki/Cron)  for more info.
 This library provides the following facilities:
@@ -62,9 +63,15 @@ The corn expression version supported by this library are following:
 
 
 ```csharp
-var s = CrontabSchedule.Parse("0,30 * * * * *",
-                              new CrontabSchedule.ParseOptions
-                              {
-                                  IncludingSeconds = true
-                              });
+DateTimeOffset time = new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero);
+var cronExpression = CronExpressionParser.Parse("0 * * * * *");
+var nextTime = cronExpression.GetNextAvaliableTime(time);
+Console.WriteLine(nextTime.ToString("yyyy-MM-dd HH:mm:ss"));//2025-01-01 00:01:00
 ```
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Cron Wiki](https://en.wikipedia.org/wiki/Cron) for more information on cron expressions.
