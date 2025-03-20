@@ -31,17 +31,17 @@ namespace CronParser.Parser
             if (cronValue == "*")
             {
                 int[] values = Enumerable.Range(1, 12).ToArray();
-                return new CronValue() { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateCollection(cronValue, 12, 1);
-                return new CronValue() { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else if (ParserUtility.RangePattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateRange(cronValue, 12, 1);
-                return new CronValue() { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else
             {
