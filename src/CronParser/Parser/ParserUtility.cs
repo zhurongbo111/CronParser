@@ -9,7 +9,7 @@ namespace CronParser
     internal class ParserUtility
     {
         internal static readonly Regex CollectionPattern = new Regex("^[0-9]{1,2}(,[0-9]{1,2})*$");
-        internal static readonly Regex StepPattern = new Regex(@"^(\*|[0-9]{1,2})/[0-9]{1,2}$");
+        internal static readonly Regex StepPattern = new Regex(@"^(\*|[0-9]{1,2}(|-[0-9]{1,2}))/[0-9]{1,2}$");
         internal static readonly Regex RangePattern = new Regex("^[0-9]{1,2}-[0-9]{1,2}$");
 
         internal static readonly int[] LastDayOfMonth = new int[1] { 32 };
@@ -28,15 +28,32 @@ namespace CronParser
 
         public static int[] ValidateStep(string cronValue, int max, int min)
         {
-            int[] values = cronValue.Split('/').Select(e => int.Parse(e)).ToArray();
-            int start = values[0], step = values[1];
-            List<int> result = new List<int>();
-            for (int i = start; i <= max && i >= min; i += step)
+            int[] values = !cronValue.Contains("-") ? cronValue.Split('/').Select(e => e == "*" ? 0 : int.Parse(e)).ToArray()
+                : cronValue.Split('-','/').Select(e => int.Parse(e)).ToArray();
+
+            if( values.Length == 3)
             {
-                result.Add(i);
+                int start = values[0], maxV= values[1], step = values[2];
+                List<int> result = new List<int>();
+                for (int i = start; i <= Math.Min(max, maxV) && i >= min; i += step)
+                {
+                    result.Add(i);
+                }
+
+                return result.Any() ? result.ToArray() : null;
+            }
+            else
+            {
+                int start = values[0], step = values[1];
+                List<int> result = new List<int>();
+                for (int i = start; i <= max && i >= min; i += step)
+                {
+                    result.Add(i);
+                }
+
+                return result.Any() ? result.ToArray() : null;
             }
 
-            return result.Any() ? result.ToArray() : null;
         }
 
         public static int[] ValidateRange(string cronValue, int max, int min)

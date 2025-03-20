@@ -77,27 +77,27 @@ namespace CronParser
         {
             List<DateTimeOffset> result = new List<DateTimeOffset>();
 
-            DateTimeOffset? firsttime = GetNearestAvaliableDate(time);
+            CronTime firsttime = GetNearestAvaliableDate(time);
             if ((firsttime == null))
             {
                 return null;
             }
             else
             {
-                DateTimeOffset currentTime = firsttime.Value;
+                DateTimeOffset currentTime = DateTimeOffset.MinValue;
                 bool LoopNotEnd()
                 {
                     return result.Count < count && currentTime < endTime;
                 }
 
-                int yearIndex = Array.IndexOf(_year.Values, firsttime.Value.Year);
-                int monthindex = Array.IndexOf(_month.Values, firsttime.Value.Month);
+                int yearIndex = Array.IndexOf(_year.Values, firsttime.Year);
+                int monthindex = Array.IndexOf(_month.Values, firsttime.Month);
                 int dayOfMonthIndex = Array.IndexOf(
-                    _dayOfMonth.Type == CronValueType.Collection ? _dayOfMonth.Values : new int[] { DateTime.DaysInMonth(firsttime.Value.Year, firsttime.Value.Month) },
-                    firsttime.Value.Day);
-                int hourIndex = Array.IndexOf(_hour.Values, firsttime.Value.Hour);
-                int minuteIndex = Array.IndexOf(_minute.Values, firsttime.Value.Minute);
-                int secondIndex = Array.IndexOf(_second.Values, firsttime.Value.Second);
+                    _dayOfMonth.Type == CronValueType.Collection ? _dayOfMonth.Values : new int[] { DateTime.DaysInMonth(firsttime.Year, firsttime.Month) },
+                    firsttime.Day);
+                int hourIndex = Array.IndexOf(_hour.Values, firsttime.Hour);
+                int minuteIndex = Array.IndexOf(_minute.Values, firsttime.Minute);
+                int secondIndex = Array.IndexOf(_second.Values, firsttime.Second);
 
                 while (LoopNotEnd())// year loop
                 {
@@ -207,13 +207,13 @@ namespace CronParser
                     return lastWeekDay.Day == dayOfMonth;
                 case CronValueType.DayOfSeqencingWeek:
                     DateTimeOffset seqencingWeekDay = GetMatchedDate(year, month, _dayOfWeek.Values[0], _dayOfWeek.Values[1]);
-                    return seqencingWeekDay.Day == dayOfMonth;
+                    return seqencingWeekDay != DateTimeOffset.MinValue && seqencingWeekDay.Day == dayOfMonth;
                 default:
                     return false;
             };
         }
 
-        private DateTimeOffset? GetNearestAvaliableDate(DateTimeOffset time)
+        private CronTime GetNearestAvaliableDate(DateTimeOffset time)
         {
             int secondIndex = FindNextAvaliableIndex(time.Second, _second.Values, false);
             bool secondReset = secondIndex == -1;
@@ -235,12 +235,13 @@ namespace CronParser
             {
                 int year = _year.Values[yearIndex];
                 int month = year != time.Year ? _month.Values[0] : _month.Values[monthIndex];
-                int[] days = _dayOfMonth.Type == CronValueType.Collection ? _dayOfMonth.Values : new int[] { DateTime.DaysInMonth(year, month) };
+                int maxDay = DateTime.DaysInMonth(year, month);
+                int[] days = _dayOfMonth.Type == CronValueType.Collection ? _dayOfMonth.Values : new int[] {maxDay };
                 int dayOfMonth = year != time.Year || month != time.Month ? days[0] : days[dayOfMonthIndex];
                 int hour = year != time.Year || month != time.Month || dayOfMonth != time.Day ? _hour.Values[0] : _hour.Values[hourIndex];
                 int minute = year != time.Year || month != time.Month || dayOfMonth != time.Day || hour != time.Hour ? _minute.Values[0] : _minute.Values[minuteIndex];
                 int second = year != time.Year || month != time.Month || dayOfMonth != time.Day || hour != time.Hour || minute != time.Minute ? _second.Values[0] : _second.Values[secondIndex];
-                return new DateTimeOffset(year, month, dayOfMonth, hour, minute, second, time.Offset);
+                return new CronTime(year, month, dayOfMonth, hour, minute, second);
             }
         }
 
@@ -286,12 +287,16 @@ namespace CronParser
         private DateTimeOffset GetMatchedDate(int year, int month, int weekDay, int week)
         {
             var date = new DateTimeOffset(year, month, 1, 0, 0, 0, TimeSpan.Zero);
-            int seqencingWeek = 1;
+            int seqencingWeek = 0;
             for (int i = (int)date.DayOfWeek; date.Month == month;)
             {
-                if(seqencingWeek == week && i == weekDay)
+                if(i == weekDay)
                 {
-                    return date;
+                    seqencingWeek++;
+                    if(seqencingWeek == week)
+                    {
+                        return date;
+                    }  
                 }
 
                 i++;
@@ -299,11 +304,35 @@ namespace CronParser
                 if (i == 7)
                 {
                     i = 0;
-                    seqencingWeek++;
                 }
             }
 
             return DateTimeOffset.MinValue;
+        }
+    }
+
+    class CronTime
+    {
+        public CronTime(int year, int month, int day, int hour, int minute, int second)
+        {
+           Year = year; Month = month; Day = day; Hour = hour; Minute = minute; Second = second;
+        }
+
+        public  int Year { get; }
+
+        public int Month { get; }
+
+        public int Day { get; }
+
+        public int Hour { get; }
+
+        public int Minute { get; }
+
+        public int Second { get; }
+
+        public DateTimeOffset ToDateTimeOffSet(TimeSpan offset)
+        {
+            return new DateTimeOffset(Year, Month, Day, Hour, Minute, Second, offset);
         }
     }
 }
