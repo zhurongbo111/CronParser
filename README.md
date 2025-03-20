@@ -1,6 +1,9 @@
 # CronParser
+[![NuGet Downloads](https://img.shields.io/nuget/dt/CronParser)](https://www.nuget.org/packages/CronParser)
+[![CI](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml/badge.svg)](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml)
 
 Cron is most suitable for scheduling repetitive tasks. You can visit [Cron Wiki](https://en.wikipedia.org/wiki/Cron)  for more info.
+
 This library provides the following facilities:
 
 * Parsing of cron expression
@@ -55,16 +58,22 @@ The corn expression version supported by this library are following:
 |    Minute    |   Yes    |      0–59       |      `*` `,` `-`,`/`       |                     Similar with above.                      |
 |     Hour     |   Yes    |      0–23       |      `*` `,` `-`,`/`       |                     Similar with above.                      |
 | Day of month |   Yes    |      1–31       |      `*` `,` `-`  `L`      |           `L` specifies the last day of the month.           |
-|    Month     |   Yes    | 1–12 or JAN–DEC |        `*` `,` `-`         |                 Similar with second second.                  |
-| Day of week  |   Yes    | 0–6 or SUN–SAT  |    `*` `,` `-`  `L` `#`    | `5L` specifies the last Friday.<br> `5#3` specifies the third Friday of the month. |
-|     Year     |    No    |    1970–2099    |        `*` `,` `-`         |                     Similar with second.                     |
+|    Month     |   Yes    | 1–12 or JAN–DEC |      `*` `,` `-` `/`       |                 Similar with second second.                  |
+| Day of week  |   Yes    | 0–6 or SUN–SAT  |  `*` `,` `-`  `/` `L` `#`  | `5L` specifies the last Friday.<br> `5#3` specifies the third Friday of the month. |
+|     Year     |    No    |    1970–2099    |      `*` `,` `-` `/`       |                     Similar with second.                     |
 
 
 
 ```csharp
-var s = CrontabSchedule.Parse("0,30 * * * * *",
-                              new CrontabSchedule.ParseOptions
-                              {
-                                  IncludingSeconds = true
-                              });
+DateTimeOffset time = new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero);
+var cronExpression = CronExpressionParser.Parse("0 * * * * *");
+var nextTime = cronExpression.GetNextAvaliableTime(time);
+Console.WriteLine(nextTime.ToString("yyyy-MM-dd HH:mm:ss"));//2025-01-01 00:01:00
 ```
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [Cron Wiki](https://en.wikipedia.org/wiki/Cron) for more information on cron expressions.

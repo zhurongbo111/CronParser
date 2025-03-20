@@ -15,17 +15,17 @@ namespace CronParser.Parser
             else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateCollection(cronValue, 59, 0);
-                return new CronValue { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue { Values = values, Type = CronValueType.Collection };
             }
             else if (ParserUtility.StepPattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateStep(cronValue, 59, 0);
-                return new CronValue { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue { Values = values, Type = CronValueType.Collection };
             }
             else if (ParserUtility.RangePattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateRange(cronValue, 59, 0);
-                return new CronValue { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue { Values = values, Type = CronValueType.Collection };
             }
             else
             {

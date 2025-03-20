@@ -60,7 +60,7 @@ namespace CronParser.Tests
         }
 
         [TestMethod]
-        [DataRow("0 0 0 * * 5#3 *", new string[] { "2025-01-17 00:00:00", "2025-02-14 00:00:00", "2025-03-14 00:00:00", "2025-04-18 00:00:00" })]
+        [DataRow("0 0 0 * * 5#3 *", new string[] { "2025-01-17 00:00:00", "2025-02-21 00:00:00", "2025-03-21 00:00:00", "2025-04-18 00:00:00" })]
         public void TestDayOfWeekSeqence(string cron, string[] expectedDates)
         {
             DateTimeOffset time = new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero);

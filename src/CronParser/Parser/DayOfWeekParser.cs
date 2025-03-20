@@ -32,11 +32,16 @@ namespace CronParser.Parser
             if (cronValue == "*")
             {
                 int[] values = Enumerable.Range(0, 7).ToArray();
-                return new CronValue() { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else if (LastPattern.IsMatch(cronValue))
             {
                 int weekDay = int.Parse(cronValue.Substring(0, cronValue.Length - 1));
+                if(weekDay < 0 || weekDay > 6)
+                {
+                    return null;
+                }
+
                 return new CronValue() { Values = new int[] { weekDay }, Type = CronValueType.LastWeekDay };
 
             }
@@ -53,12 +58,17 @@ namespace CronParser.Parser
             else if (ParserUtility.CollectionPattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateCollection(cronValue, 6, 0);
-                return new CronValue() { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
+            }
+            else if (ParserUtility.StepPattern.IsMatch(cronValue))
+            {
+                int[] values = ParserUtility.ValidateStep(cronValue, 6, 0);
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else if (ParserUtility.RangePattern.IsMatch(cronValue))
             {
                 int[] values = ParserUtility.ValidateRange(cronValue, 6, 0);
-                return new CronValue() { Values = values, Type = CronValueType.Collection };
+                return values == null ? null : new CronValue() { Values = values, Type = CronValueType.Collection };
             }
             else
             {
