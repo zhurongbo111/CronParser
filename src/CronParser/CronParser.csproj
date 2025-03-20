@@ -10,10 +10,16 @@
     <RepositoryUrl>https://github.com/zhurongbo111/CronParser</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>CRON,Parser</PackageTags>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\LICENSE">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
