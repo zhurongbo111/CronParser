@@ -2,6 +2,7 @@
 [![NuGet Downloads](https://img.shields.io/nuget/dt/CronParser)](https://www.nuget.org/packages/CronParser)
 
 Cron is most suitable for scheduling repetitive tasks. You can visit [Cron Wiki](https://en.wikipedia.org/wiki/Cron)  for more info.
+
 This library provides the following facilities:
 
 * Parsing of cron expression
