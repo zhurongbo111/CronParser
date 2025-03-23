@@ -45,7 +45,7 @@ namespace CronParser
             switch (tokens.Length)
             {
                 case 5:
-                    secondToken = "*";
+                    secondToken = "0";
                     minuteToken = tokens[0];
                     hourToken = tokens[1];
                     dayOfMonthToken = tokens[2];
