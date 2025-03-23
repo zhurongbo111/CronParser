@@ -1,11 +1,37 @@
 ﻿using CronParser.Parser;
 using System;
+using System.Collections.Generic;
 
 namespace CronParser
 {
     public static class CronExpressionParser
     {
         public static CronExpression Parse(string cron)
+        {
+            return Parse(cron, true);
+        }
+
+        public static bool TryParse(string cron, out CronExpression cronExpression)
+        {
+            if (string.IsNullOrWhiteSpace(cron))
+            {
+                cronExpression = null;
+                return false;
+            }
+
+            try
+            {
+                cronExpression = Parse(cron, false);
+                return true;
+            }
+            catch
+            {
+                cronExpression = null;
+                return false;
+            }
+        }
+
+        private static CronExpression Parse(string cron, bool throwException)
         {
             if (string.IsNullOrWhiteSpace(cron))
                 throw new ArgumentNullException(nameof(cron));
@@ -46,18 +72,51 @@ namespace CronParser
                     yearToken = tokens[6];
                     break;
                 default:
-                    throw new CronFormatException("Cron must be 5 parts(minute to week), 6 parts(second to week) or 7parts（second to year)");
+                    if (throwException)
+                    {
+                        throw new CronFormatException("Cron must be 5 parts(minute to week), 6 parts(second to week) or 7parts（second to year)");
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
             }
 
-            CronValue second = SecondAndMinuteParser.Parser(secondToken) ?? throw new CronFormatException($"The expression {secondToken} is invalid");
-            CronValue minute = SecondAndMinuteParser.Parser(minuteToken) ?? throw new CronFormatException($"The expression {minuteToken} is invalid");
-            CronValue hour = HourParser.Parser(hourToken) ?? throw new CronFormatException($"The expression {hourToken} is invalid");
-            CronValue dayOfMonth = DayOfMonthParser.Parser(dayOfMonthToken) ?? throw new CronFormatException($"The expression {dayOfMonthToken} is invalid");
-            CronValue month = MonthParser.Parser(monthToken) ?? throw new CronFormatException($"The expression {monthToken} is invalid");
-            CronValue dayofWeek = DayOfWeekParser.Parser(dayOfWeekToken) ?? throw new CronFormatException($"The expression {dayOfWeekToken} is invalid");
-            CronValue year = YearParser.Parser(yearToken) ?? throw new CronFormatException($"The expression {yearToken} is invalid");
+            var parsers = new List<(string, Func<string, CronValue>)>
+            {
+                (secondToken, SecondAndMinuteParser.Parser),
+                (minuteToken, SecondAndMinuteParser.Parser),
+                (hourToken, HourParser.Parser),
+                (dayOfMonthToken, DayOfMonthParser.Parser),
+                (monthToken, MonthParser.Parser),
+                (dayOfWeekToken, DayOfWeekParser.Parser),
+                (yearToken, YearParser.Parser)
+            };
 
-            return new CronExpression(second, minute, hour, dayOfMonth, month, dayofWeek, year);
+            List<CronValue> cronValues = new List<CronValue>();
+
+            foreach (var parser in parsers)
+            {
+                CronValue cronValue = parser.Item2(parser.Item1);
+                if (cronValue == null)
+                {
+                    if (throwException)
+                    {
+                        throw new CronFormatException($"The expression {parser.Item1} is invalid");
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+                else
+                {
+                    cronValues.Add(cronValue);
+                }
+            }
+
+            return new CronExpression(cronValues[0], cronValues[1], cronValues[2], cronValues[3], cronValues[4], cronValues[5], cronValues[6]);
         }
     }
 }
