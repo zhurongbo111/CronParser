@@ -1,5 +1,9 @@
 # CronParser
-[![NuGet Downloads](https://img.shields.io/nuget/dt/CronParser)](https://www.nuget.org/packages/CronParser)
+| Package | NuGet Stable | Downloads |
+| ------- | ------------ | --------- |
+| [CronParser](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/v/CronParser.svg)](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/dt/CronParser.svg)](https://www.nuget.org/packages/Quartz.NetCore.DependencyInjection/) |
+
+
 [![CI](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml/badge.svg)](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml)
 
 Cron is most suitable for scheduling repetitive tasks. You can visit [Cron Wiki](https://en.wikipedia.org/wiki/Cron)  for more info.
