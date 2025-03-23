@@ -16,19 +16,19 @@ namespace CronParser
             Year = year;
         }
 
-        public CronValue Second { get; private set; }
+        internal CronValue Second { get; private set; }
 
-        public CronValue Minute { get; private set; }
+        internal CronValue Minute { get; private set; }
 
-        public CronValue Hour { get; private set; }
+        internal CronValue Hour { get; private set; }
 
-        public CronValue DayOfMonth { get; private set; }
+        internal CronValue DayOfMonth { get; private set; }
 
-        public CronValue Month { get; private set; }
+        internal CronValue Month { get; private set; }
 
-        public CronValue DayOfWeek { get; private set; }
+        internal CronValue DayOfWeek { get; private set; }
 
-        public CronValue Year { get; private set; }
+        internal CronValue Year { get; private set; }
 
         public DateTimeOffset? GetNextAvaliableTime(DateTimeOffset? afterTime = null)
         {
