@@ -22,17 +22,13 @@ jobs:
       run: dotnet test
       working-directory: ${{env.working-directory}}
 
+    - name: build package
+      run: dotnet pack -c Release
+      working-directory: ${{env.working-directory}}
+
     - name: Publish NuGet
-      uses: brandedoutcast/publish-nuget@v2.5.5
-      with:
-        # Filepath of the project to be packaged, relative to root of repository
-        PROJECT_FILE_PATH: ./src/CronParser/CronParser.csproj
-        # Flag to toggle git tagging, enabled by default
-        TAG_COMMIT: true
-        # API key to authenticate with NuGet server
-        NUGET_KEY: ${{ secrets.NugetKey }}
-        # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
-        INCLUDE_SYMBOLS: true
+      run: dotnet nuget push **/*.snupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGETKEY }} --skip-duplicate -c Release
+      working-directory: ${{env.working-directory}}
           
 
 
