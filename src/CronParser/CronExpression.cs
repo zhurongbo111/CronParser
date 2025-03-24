@@ -48,9 +48,9 @@ namespace CronParser
         /// </summary>
         /// <param name="afterTime">The time after which to find the next available time. If null, the current time is used.</param>
         /// <returns>The next available time, or null if no available time is found.</returns>
-        public DateTimeOffset? GetNextAvaliableTime(DateTimeOffset? afterTime = null)
+        public DateTimeOffset? GetNextAvailableTime(DateTimeOffset? afterTime = null)
         {
-            var times = GetNextAvaliableTimes(afterTime, 1);
+            var times = GetNextAvailableTimes(afterTime, 1);
             if (times == null || times.Length == 0)
             {
                 return null;
@@ -67,17 +67,18 @@ namespace CronParser
         /// <param name="afterTime">The time after which to find the next available times. If null, the current time is used.</param>
         /// <param name="count">The number of available times to return.</param>
         /// <returns>An array of the next available times.</returns>
-        public DateTimeOffset[] GetNextAvaliableTimes(DateTimeOffset? afterTime = null, int count = 1)
+        public DateTimeOffset[] GetNextAvailableTimes(DateTimeOffset? afterTime = null, int count = 1)
         {
             afterTime = afterTime ?? DateTimeOffset.UtcNow;
             ICronTimeBuilder builder = new CronTimeBuilder();
-            builder.WithSecond(Second);
-            builder.WithMinute(Minute);
-            builder.WithHour(Hour);
-            builder.WithDayOfMonth(DayOfMonth);
-            builder.WithMonth(Month);
-            builder.WithDayOfWeek(DayOfWeek);
-            builder.WithYear(Year);
+            // 链式调用构建器方法
+            builder = builder.WithSecond(Second)
+                             .WithMinute(Minute)
+                             .WithHour(Hour)
+                             .WithDayOfMonth(DayOfMonth)
+                             .WithMonth(Month)
+                             .WithDayOfWeek(DayOfWeek)
+                             .WithYear(Year);
             return builder.GetNextTimes(afterTime.Value, count);
         }
 
@@ -87,16 +88,17 @@ namespace CronParser
         /// <param name="startTime">The start time of the range.</param>
         /// <param name="endTime">The end time of the range.</param>
         /// <returns>An array of available times between the specified start and end times.</returns>
-        public DateTimeOffset[] GetAvaliableTimesBetween(DateTimeOffset startTime, DateTimeOffset endTime)
+        public DateTimeOffset[] GetAvailableTimesBetween(DateTimeOffset startTime, DateTimeOffset endTime)
         {
-            CronTimeBuilder builder = new CronTimeBuilder();
-            builder.WithSecond(Second);
-            builder.WithMinute(Minute);
-            builder.WithHour(Hour);
-            builder.WithDayOfMonth(DayOfMonth);
-            builder.WithMonth(Month);
-            builder.WithDayOfWeek(DayOfWeek);
-            builder.WithYear(Year);
+            ICronTimeBuilder builder = new CronTimeBuilder();
+            // 链式调用构建器方法
+            builder = builder.WithSecond(Second)
+                             .WithMinute(Minute)
+                             .WithHour(Hour)
+                             .WithDayOfMonth(DayOfMonth)
+                             .WithMonth(Month)
+                             .WithDayOfWeek(DayOfWeek)
+                             .WithYear(Year);
             return builder.GetTimesBetween(startTime, endTime);
         }
     }

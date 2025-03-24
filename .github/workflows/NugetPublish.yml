@@ -18,12 +18,8 @@ jobs:
       with:
         dotnet-version: 9.0.*
 
-    - name: Test
-      run: dotnet test
-      working-directory: ${{env.working-directory}}
-
-    - name: build package
-      run: dotnet build -c Release
+    - name: Build and Test
+      run: dotnet test -c Release
       working-directory: ${{env.working-directory}}
 
     - name: pack package

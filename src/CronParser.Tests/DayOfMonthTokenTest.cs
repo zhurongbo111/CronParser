@@ -19,7 +19,7 @@ namespace CronParser.Tests
         {
             DateTimeOffset time = new DateTimeOffset(2025, 1, 5, 0, 0, 0, TimeSpan.Zero);
             CronExpression cronExpression = CronExpressionParser.Parse(cron);
-            DateTimeOffset[] actualDates = cronExpression.GetNextAvaliableTimes(time, expectedDates.Length);
+            DateTimeOffset[] actualDates = cronExpression.GetNextAvailableTimes(time, expectedDates.Length);
             Assert.AreEqual(expectedDates.Length, actualDates.Length);
             for (int i = 0; i < expectedDates.Length; i++)
             {
@@ -37,7 +37,7 @@ namespace CronParser.Tests
         {
             DateTimeOffset time = new DateTimeOffset(2025, 1, 5, 0, 0, 0, TimeSpan.Zero);
             CronExpression cronExpression = CronExpressionParser.Parse(cron);
-            DateTimeOffset[] actualDates = cronExpression.GetNextAvaliableTimes(time, expectedDates.Length);
+            DateTimeOffset[] actualDates = cronExpression.GetNextAvailableTimes(time, expectedDates.Length);
             Assert.AreEqual(expectedDates.Length, actualDates.Length);
             for (int i = 0; i < expectedDates.Length; i++)
             {
@@ -55,7 +55,7 @@ namespace CronParser.Tests
             new DateTimeOffset(2025, 10, 1, 0, 0, 0, TimeSpan.Zero)})
             {
                 CronExpression cronExpression = CronExpressionParser.Parse(cron);
-                DateTimeOffset[] actualDates = cronExpression.GetNextAvaliableTimes(time, expectedDates.Length);
+                DateTimeOffset[] actualDates = cronExpression.GetNextAvailableTimes(time, expectedDates.Length);
                 Assert.AreEqual(expectedDates.Length, actualDates.Length);
                 for (int i = 0; i < expectedDates.Length; i++)
                 {
