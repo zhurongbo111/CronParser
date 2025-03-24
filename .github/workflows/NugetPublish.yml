@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  ci:
+  nuget_publish:
 
     runs-on: ubuntu-latest
     env:
