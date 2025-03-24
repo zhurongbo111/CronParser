@@ -1,3 +1,5 @@
+<p align="center">English | <a href="./README.zh.md">中文</a> </p>
+
 # CronParser
 | Package | NuGet Stable | Downloads |
 | ------- | ------------ | --------- |
@@ -6,12 +8,13 @@
 
 [![CI](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml/badge.svg)](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml)
 
-Cron is most suitable for scheduling repetitive tasks. You can visit [Cron Wiki](https://en.wikipedia.org/wiki/Cron)  for more info.
+## Introduction
+`CronParser` is a C# library designed to parse Cron expressions. It can convert a Cron expression string into a `CronExpression` object, supporting 5 - part (from minutes to days of the week), 6 - part (from seconds to days of the week), and 7 - part (from seconds to years) Cron expressions.
 
-This library provides the following facilities:
-
-* Parsing of cron expression
-* Calculation of occurrences of time based on a cron expression
+## Features
+- **Flexible Parsing**: Supports Cron expressions of different lengths.
+- **Input Validation**: Rigorously validates the input Cron expression to ensure its validity.
+- **Error Handling**: Catches and handles potential errors during the parsing process, enhancing the robustness of the code.
 
 The corn expression version supported by this library are following:
 

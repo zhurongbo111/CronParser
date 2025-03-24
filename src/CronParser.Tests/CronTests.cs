@@ -31,7 +31,7 @@ namespace CronParser.Tests
         {
             DateTimeOffset time = new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero);
             var cronExpression = CronExpressionParser.Parse(cron);
-            var nextTime = cronExpression.GetNextAvaliableTime(time);
+            var nextTime = cronExpression.GetNextAvailableTime(time);
 
             Assert.IsTrue(nextTime.HasValue);
             Assert.AreEqual(expectedDate, nextTime.Value.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -86,7 +86,7 @@ namespace CronParser.Tests
         public void TestValidCron(string cron, string expectedDate, string time)
         {
             var cronExpression = CronExpressionParser.Parse(cron);
-            var nextTime = cronExpression.GetNextAvaliableTime(DateTimeOffset.Parse(time));
+            var nextTime = cronExpression.GetNextAvailableTime(DateTimeOffset.Parse(time));
 
             Assert.IsTrue(nextTime.HasValue);
             Assert.AreEqual(expectedDate, nextTime.Value.ToString("yyyy-MM-dd HH:mm:ss"));
@@ -106,7 +106,7 @@ namespace CronParser.Tests
         public void TestValidCron(string cron, string[] expectedDates, string time)
         {
             var cronExpression = CronExpressionParser.Parse(cron);
-            var actualDates = cronExpression.GetNextAvaliableTimes(DateTimeOffset.Parse(time), expectedDates.Length);
+            var actualDates = cronExpression.GetNextAvailableTimes(DateTimeOffset.Parse(time), expectedDates.Length);
 
             for (int i = 0; i < expectedDates.Length; i++)
             {
@@ -122,7 +122,7 @@ namespace CronParser.Tests
             foreach (var test in tests)
             {
                 var cronExpression = CronExpressionParser.Parse(test.Cron);
-                var actualDates = cronExpression.GetNextAvaliableTimes(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero), test.Dates.Length);
+                var actualDates = cronExpression.GetNextAvailableTimes(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero), test.Dates.Length);
                 for (int i = 0; i < test.Dates.Length; i++)
                 {
                     Assert.AreEqual(test.Dates[i], actualDates[i].ToString("yyyy-MM-dd HH:mm:ss"), true, $"Cron: {test.Cron}");
@@ -140,11 +140,11 @@ namespace CronParser.Tests
                 var cronExpression = CronExpressionParser.Parse(test.Cron);
                 if(test.Dates.Length == 0)
                 {
-                    var actualDate = cronExpression.GetNextAvaliableTime(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero));
+                    var actualDate = cronExpression.GetNextAvailableTime(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero));
                     continue;
                 }
 
-                var actualDates = cronExpression.GetNextAvaliableTimes(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero), test.Dates.Length);
+                var actualDates = cronExpression.GetNextAvailableTimes(new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero), test.Dates.Length);
                 for (int i = 0; i < test.Dates.Length; i++)
                 {
                     Assert.AreEqual(test.Dates[i], actualDates[i].ToString("yyyy-MM-dd HH:mm:ss"), true, $"Cron: {test.Cron}");
