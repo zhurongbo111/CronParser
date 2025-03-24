@@ -27,7 +27,7 @@ jobs:
       working-directory: ${{env.working-directory}}
 
     - name: Publish NuGet
-      run: dotnet nuget push **/*.snupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGETKEY }} --skip-duplicate
+      run: dotnet nuget push **/*.snupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGETKEY }} --skip-duplicate -c Release
       working-directory: ${{env.working-directory}}
           
 
