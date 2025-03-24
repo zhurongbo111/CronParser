@@ -4,13 +4,27 @@ using System.Collections.Generic;
 
 namespace CronParser
 {
+    /// <summary>
+    /// Provides methods to parse cron expressions.
+    /// </summary>
     public static class CronExpressionParser
     {
+        /// <summary>
+        /// Parses a cron expression string and returns a CronExpression object.
+        /// </summary>
+        /// <param name="cron">The cron expression string.</param>
+        /// <returns>A CronExpression object representing the parsed cron expression.</returns>
         public static CronExpression Parse(string cron)
         {
             return Parse(cron, true);
         }
 
+        /// <summary>
+        /// Tries to parse a cron expression string and returns a boolean indicating success or failure.
+        /// </summary>
+        /// <param name="cron">The cron expression string.</param>
+        /// <param name="cronExpression">The resulting CronExpression object if parsing is successful, otherwise null.</param>
+        /// <returns>True if parsing is successful, otherwise false.</returns>
         public static bool TryParse(string cron, out CronExpression cronExpression)
         {
             if (string.IsNullOrWhiteSpace(cron))
@@ -31,6 +45,12 @@ namespace CronParser
             }
         }
 
+        /// <summary>
+        /// Parses a cron expression string and returns a CronExpression object.
+        /// </summary>
+        /// <param name="cron">The cron expression string.</param>
+        /// <param name="throwException">Indicates whether to throw an exception if parsing fails.</param>
+        /// <returns>A CronExpression object representing the parsed cron expression, or null if parsing fails and throwException is false.</returns>
         private static CronExpression Parse(string cron, bool throwException)
         {
             if (string.IsNullOrWhiteSpace(cron))
@@ -74,25 +94,24 @@ namespace CronParser
                 default:
                     if (throwException)
                     {
-                        throw new CronFormatException("Cron must be 5 parts(minute to week), 6 parts(second to week) or 7parts（second to year)");
+                        throw new CronFormatException("Cron must be 5 parts(minute to week), 6 parts(second to week) or 7 parts(second to year)");
                     }
                     else
                     {
                         return null;
                     }
-
             }
 
             var parsers = new List<(string, Func<string, CronValue>)>
-            {
-                (secondToken, SecondAndMinuteParser.Parser),
-                (minuteToken, SecondAndMinuteParser.Parser),
-                (hourToken, HourParser.Parser),
-                (dayOfMonthToken, DayOfMonthParser.Parser),
-                (monthToken, MonthParser.Parser),
-                (dayOfWeekToken, DayOfWeekParser.Parser),
-                (yearToken, YearParser.Parser)
-            };
+                {
+                    (secondToken, SecondAndMinuteParser.Parser),
+                    (minuteToken, SecondAndMinuteParser.Parser),
+                    (hourToken, HourParser.Parser),
+                    (dayOfMonthToken, DayOfMonthParser.Parser),
+                    (monthToken, MonthParser.Parser),
+                    (dayOfWeekToken, DayOfWeekParser.Parser),
+                    (yearToken, YearParser.Parser)
+                };
 
             List<CronValue> cronValues = new List<CronValue>();
 

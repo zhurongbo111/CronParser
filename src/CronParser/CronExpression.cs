@@ -2,8 +2,21 @@
 
 namespace CronParser
 {
+    /// <summary>
+    /// Represents a parsed cron expression and provides methods to calculate the next available times.
+    /// </summary>
     public class CronExpression
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CronExpression"/> class.
+        /// </summary>
+        /// <param name="second">The second part of the cron expression.</param>
+        /// <param name="minute">The minute part of the cron expression.</param>
+        /// <param name="hour">The hour part of the cron expression.</param>
+        /// <param name="dayOfMonth">The day of month part of the cron expression.</param>
+        /// <param name="month">The month part of the cron expression.</param>
+        /// <param name="dayOfWeek">The day of week part of the cron expression.</param>
+        /// <param name="year">The year part of the cron expression.</param>
         public CronExpression(CronValue second, CronValue minute, CronValue hour,
             CronValue dayOfMonth, CronValue month, CronValue dayOfWeek, CronValue year)
         {
@@ -30,10 +43,15 @@ namespace CronParser
 
         internal CronValue Year { get; private set; }
 
+        /// <summary>
+        /// Gets the next available time after the specified time.
+        /// </summary>
+        /// <param name="afterTime">The time after which to find the next available time. If null, the current time is used.</param>
+        /// <returns>The next available time, or null if no available time is found.</returns>
         public DateTimeOffset? GetNextAvaliableTime(DateTimeOffset? afterTime = null)
         {
             var times = GetNextAvaliableTimes(afterTime, 1);
-            if(times == null || times.Length == 0)
+            if (times == null || times.Length == 0)
             {
                 return null;
             }
@@ -43,6 +61,12 @@ namespace CronParser
             }
         }
 
+        /// <summary>
+        /// Gets the next available times after the specified time.
+        /// </summary>
+        /// <param name="afterTime">The time after which to find the next available times. If null, the current time is used.</param>
+        /// <param name="count">The number of available times to return.</param>
+        /// <returns>An array of the next available times.</returns>
         public DateTimeOffset[] GetNextAvaliableTimes(DateTimeOffset? afterTime = null, int count = 1)
         {
             afterTime = afterTime ?? DateTimeOffset.UtcNow;
@@ -57,6 +81,12 @@ namespace CronParser
             return builder.GetNextTimes(afterTime.Value, count);
         }
 
+        /// <summary>
+        /// Gets the available times between the specified start and end times.
+        /// </summary>
+        /// <param name="startTime">The start time of the range.</param>
+        /// <param name="endTime">The end time of the range.</param>
+        /// <returns>An array of available times between the specified start and end times.</returns>
         public DateTimeOffset[] GetAvaliableTimesBetween(DateTimeOffset startTime, DateTimeOffset endTime)
         {
             CronTimeBuilder builder = new CronTimeBuilder();
