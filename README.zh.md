@@ -1,73 +1,73 @@
-<p align="center"><a href="./README.md">Emglish</a> | ���� </p>
+<p align="center"><a href="./README.md">Emglish</a> | 中文 </p>
 
 # CronParser
-| �� | NuGet �ȶ��� | ������ |
+| 包 | NuGet 稳定版 | 下载量 |
 | ------- | ------------ | --------- |
-| [CronParser](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/v/CronParser.svg)](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/dt/CronParser.svg)](https://www.nuget.org/packages/Quartz.NetCore.DependencyInjection/) |
+| [CronParser](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/v/CronParser.svg)](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/dt/CronParser.svg)](https://www.nuget.org/packages/CronParser/) |
 
 
 [![CI](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml/badge.svg)](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml)
 
-## ����
-`CronParser` ��һ�����ڽ��� Cron ����ʽ�� C# �⡣�����Խ� Cron ����ʽ�ַ���ת��Ϊ `CronExpression` ����֧�� 5 ���֣��ӷ��ӵ����ڼ�����6 ���֣����뵽���ڼ����� 7 ���֣����뵽��ݣ��� Cron ����ʽ��
+## 介绍
+`CronParser` 是一个用于解析 Cron 表达式的 C# 库。它可以将 Cron 表达式字符串转换为 `CronExpression` 对象，支持 5 部分（从分钟到星期几）、6 部分（从秒到星期几）和 7 部分（从秒到年份）的 Cron 表达式。
 
-## ����
-- **������**��֧�ֲ�ͬ���ȵ� Cron ����ʽ��
-- **������֤**���ϸ���֤����� Cron ����ʽ��ȷ������Ч�ԡ�
-- **������**���ڽ��������в��񲢴���Ǳ�ڴ�����ǿ����Ľ�׳�ԡ�
+## 特性
+- **灵活解析**：支持不同长度的 Cron 表达式。
+- **输入验证**：严格验证输入的 Cron 表达式以确保其有效性。
+- **错误处理**：在解析过程中捕获并处理潜在错误，增强代码的健壮性。
 
-�ÿ�֧�ֵ� Cron ����ʽ�汾���£�
+该库支持的 Cron 表达式版本如下：
 
-###### �岿�ָ�ʽ
+###### 五部分格式
 
     * * * * *
     - - - - -
     | | | | |
     | | | | |
-    | | | | +----- ���ڼ�����Χ��0-6 �� SUN-SAT��
-    | | | +------- �£���Χ��1-12 �� JAN-DEC��
-    | | +--------- ���ڣ���Χ��1-31��
-    | +----------- Сʱ����Χ��0-23��
-    +------------- ���ӣ���Χ��0-59��
+    | | | | +----- 星期几（范围：0-6 或 SUN-SAT）
+    | | | +------- 月（范围：1-12 或 JAN-DEC）
+    | | +--------- 日期（范围：1-31）
+    | +----------- 小时（范围：0-23）
+    +------------- 分钟（范围：0-59）
 
-###### �����ָ�ʽ�������룩
+###### 六部分格式（包括秒）
 
     * * * * * *
     - - - - - -
     | | | | | |
     | | | | | |
-    | | | | | +--- ���ڼ�
-    | | | | +----- ��
-    | | | +------- ����
-    | | +--------- Сʱ
-    | +----------- ����
-    +------------- �루��Χ��0-59��
+    | | | | | +--- 星期几
+    | | | | +----- 月
+    | | | +------- 日期
+    | | +--------- 小时
+    | +----------- 分钟
+    +------------- 秒（范围：0-59）
 
-###### �߲��ָ�ʽ
+###### 七部分格式
 
     * * * * * * *
     - - - - - - -
     | | | | | | |
     | | | | | | |
-    | | | | | | +--- ��
-    | | | | | +----- ���ڼ�
-    | | | | +------- ��
-    | | | +--------- ����
-    | | +----------- Сʱ
-    | +------------- ����
-    +--------------- ��
+    | | | | | | +--- 年
+    | | | | | +----- 星期几
+    | | | | +------- 月
+    | | | +--------- 日期
+    | | +----------- 小时
+    | +------------- 分钟
+    +--------------- 秒
 
-#### Cron ����ʽ
+#### Cron 表达式
 
-|    �ֶ�     | ���� | ����ֵ  | �����������ַ� |                           ��ע                            |
+|    字段     | 必需 | 允许值  | 允许的特殊字符 |                           备注                            |
 | :----------: | :------: | :-------------: | :------------------------: | :----------------------------------------------------------: |
-|    ��    |    ��    |      0-59       |      `*` `,` `-`,`/`       | `*` ��ʾÿ�� <br>`3-10` ָ���� 3 �� 10 �롣<br>`5/15` ָ���룺5,20,35,50<br>`3,5,7` ָ���룺3,5,7 |
-|    ����    |   ��    |      0�C59       |      `*` `,` `-`,`/`       |                     �������档                      |
-|     Сʱ     |   ��    |      0�C23       |      `*` `,` `-`,`/`       |                     �������档                      |
-| ���� |   ��    |      1�C31       |      `*` `,` `-`  `L`      |           `L` ָ���·ݵ����һ�졣           |
-|    ��     |   ��    | 1�C12 �� JAN�CDEC |      `*` `,` `-` `/`       |                 �����롣                  |
-| ���ڼ�  |   ��    | 0�C6 �� SUN�CSAT  |  `*` `,` `-`  `/` `L` `#`  | `5L` ָ�����һ�������塣<br> `5#3` ָ���·ݵĵ����������塣 |
-|     ��     |    ��    |    1970�C2099    |      `*` `,` `-` `/`       |                     �����롣                     |
+|    秒    |    否    |      0-59       |      `*` `,` `-`,`/`       | `*` 表示每秒 <br>`3-10` 指定从 3 到 10 秒。<br>`5/15` 指定秒：5,20,35,50<br>`3,5,7` 指定秒：3,5,7 |
+|    分钟    |   是    |      0–59       |      `*` `,` `-`,`/`       |                     类似上面。                      |
+|     小时     |   是    |      0–23       |      `*` `,` `-`,`/`       |                     类似上面。                      |
+| 日期 |   是    |      1–31       |      `*` `,` `-`  `L`      |           `L` 指定月份的最后一天。           |
+|    月     |   是    | 1–12 或 JAN–DEC |      `*` `,` `-` `/`       |                 类似秒。                  |
+| 星期几  |   是    | 0–6 或 SUN–SAT  |  `*` `,` `-`  `/` `L` `#`  | `5L` 指定最后一个星期五。<br> `5#3` 指定月份的第三个星期五。 |
+|     年     |    否    |    1970–2099    |      `*` `,` `-` `/`       |                     类似秒。                     |
 
 
 
@@ -80,10 +80,10 @@ Console.WriteLine(nextTime.ToString("yyyy-MM-dd HH:mm:ss"));//2025-01-01 00:01:0
 
 ## 
 
-## ����֤
+## 许可证
 
-����Ŀ���� MIT ����֤��Ȩ - �й���ϸ��Ϣ������� [LICENSE](LICENSE) �ļ���
+此项目根据 MIT 许可证授权 - 有关详细信息，请参阅 [LICENSE](LICENSE) 文件。
 
-## ��л
+## 致谢
 
-- [Cron ά��](https://en.wikipedia.org/wiki/Cron) ��ȡ������� cron ����ʽ����Ϣ��
+- [Cron 维基](https://en.wikipedia.org/wiki/Cron) 获取更多关于 cron 表达式的信息。
