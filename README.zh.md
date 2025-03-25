@@ -1,4 +1,4 @@
-<p align="center"><a href="./README.md">Emglish</a> | 中文 </p>
+<p align="center"><a href="./README.md">English</a> | 中文 </p>
 
 # CronParser
 | 包 | NuGet 稳定版 | 下载量 |
