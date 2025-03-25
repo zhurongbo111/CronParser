@@ -1,10 +1,9 @@
 <p align="center">English | <a href="./README.zh.md">中文</a> </p>
 
 # CronParser
-| Package | NuGet Stable | Downloads |
-| ------- | ------------ | --------- |
-| [CronParser](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/v/CronParser.svg)](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/dt/CronParser.svg)](https://www.nuget.org/packages/CronParser/) |
-
+| Package | NuGet Stable |
+| ------- | ------------ |
+| [CronParser](https://www.nuget.org/packages/CronParser/) | [![CronParser](https://img.shields.io/nuget/v/CronParser.svg)](https://www.nuget.org/packages/CronParser/) | 
 
 [![CI](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml/badge.svg)](https://github.com/zhurongbo111/CronParser/actions/workflows/CI.yml)
 
